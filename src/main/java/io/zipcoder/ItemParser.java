@@ -3,6 +3,7 @@ package io.zipcoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,7 +70,6 @@ public class ItemParser {
     public HashMap<String, String> stringToHashMap(ArrayList<String> inputArrayList) throws IndexOutOfBoundsException {
         HashMap<String, String> keyValuePairMap = new HashMap<String, String>();
         for (String string : inputArrayList) {
-            System.out.println(string);
             ArrayList<String> keyValuePairArray = splitStringWithRegexPattern(":", string);
             keyValuePairMap.put(keyValuePairArray.get(0), keyValuePairArray.get(1));
         }
@@ -86,6 +86,69 @@ public class ItemParser {
             }
         }
         return itemArrayList;
+    }
+
+    public void printFormattedItemList(ArrayList<Item> itemList){
+        ArrayList<ArrayList<Item>> listOfItemLists = seperateItemListIntoListsOfItemTypes(itemList);
+
+    }
+
+    private ArrayList<ArrayList<Item>> seperateItemListIntoListsOfItemTypes(ArrayList<Item> itemList) {
+        ArrayList<Item> milkList = createItemTypeList(itemList, "Milk");
+        ArrayList<Item> breadList = createItemTypeList(itemList, "Bread");
+        ArrayList<Item> cookieList = createItemTypeList(itemList, "Cookie");
+        ArrayList<Item> appleList = createItemTypeList(itemList, "Apple");
+        ArrayList<ArrayList<Item>> listOfItemLists = new ArrayList<ArrayList<Item>>();
+        listOfItemLists.add(milkList);
+        listOfItemLists.add(breadList);
+        listOfItemLists.add(cookieList);
+        listOfItemLists.add(appleList);
+        return listOfItemLists;
+    }
+
+    private ArrayList<Item> createItemTypeList(ArrayList<Item> itemList, String itemName) {
+        ArrayList<Item> itemTypeList = new ArrayList<Item>();
+        for (Item item: itemList) {
+            if (item.getName().equals(itemName)){
+                itemTypeList.add(item);
+            }
+        }
+        return itemTypeList;
+    }
+
+    public HashMap<Double, Integer> countPriceOccurancies(ArrayList<Item> listOfItems){
+        HashMap<Double, Integer> priceCountMap = new HashMap<Double, Integer>();
+        for (Item item: listOfItems) {
+            if (priceCountMap.containsKey(item.getPrice())) {
+                priceCountMap.put(item.getPrice(),priceCountMap.get(item.getPrice()) + 1);
+            }else if (!priceCountMap.containsKey(item.getPrice())){
+                priceCountMap.put(item.getPrice(), 1);
+            }
+        }
+        return priceCountMap;
+    }
+
+    public String printNameOfItem(ArrayList<Item> inputArray){
+        StringBuilder outputString = new StringBuilder();
+        outputString.append(String.format("name:%8s", inputArray.get(0).getName()));
+        outputString.append(printOutputSpace());
+        outputString.append(printHowManyTimesSeen(inputArray, inputArray.size()));
+        outputString.append("=============");
+        outputString.append(printOutputSpace());
+        outputString.append("=============\n");
+        return outputString.toString();
+    }
+
+    private String printHowManyTimesSeen(ArrayList<Item> inputArray, int howManyTimesSeen) {
+        if (inputArray.size() == 1){
+            return String.format("seen:%2d time \n", howManyTimesSeen);
+        } else {
+            return String.format("seen:%2d times\n", howManyTimesSeen);
+        }
+    }
+
+    private String printOutputSpace() {
+        return "       ";
     }
 
 }
