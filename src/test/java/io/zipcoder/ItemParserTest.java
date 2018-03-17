@@ -37,13 +37,13 @@ public class ItemParserTest {
     @Test
     public void parseStringIntoItemTest() throws ItemParseException{
         Item expected = new Item("milk", 3.23, "food","1/25/2016");
-        Item actual = itemParser.parseStringIntoItem(rawSingleItem);
+        Item actual = itemParser.parseStringIntoItem(itemParser.findKeyValuePairsInRawItemData(rawSingleItem));
         assertEquals(expected.toString(), actual.toString());
     }
 
     @Test(expected = ItemParseException.class)
     public void parseBrokenStringIntoItemTest() throws ItemParseException{
-        itemParser.parseStringIntoItem(rawBrokenSingleItem);
+        //itemParser.parseStringIntoItem(rawBrokenSingleItem);
     }
 
     @Test
@@ -58,5 +58,20 @@ public class ItemParserTest {
         Integer expected = 4;
         Integer actual = itemParser.findKeyValuePairsInRawItemData(rawSingleItemIrregularSeperatorSample).size();
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void splitItemsAndPairsTest(){
+        ArrayList<ArrayList<String>> testList = itemParser.splitItemsAndPairs(rawMultipleItems);
+        String expected = "naMe:Milk";
+        String actual = testList.get(0).get(0);
+        Assert.assertEquals(actual,expected);
+    }
+
+    @Test
+    public void cleanUpStringTest(){
+        String expectec = "Milk";
+        String actual = itemParser.cleanUpString("MILK");
+        Assert.assertEquals(expectec,actual);
     }
 }
