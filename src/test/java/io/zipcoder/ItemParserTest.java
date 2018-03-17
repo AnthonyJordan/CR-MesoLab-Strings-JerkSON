@@ -101,4 +101,56 @@ public class ItemParserTest {
                 "=============       =============\n";
         Assert.assertEquals(actual,expected);
     }
+
+    @Test
+    public void printPriceOfItemTest(){
+        Item testItem1 = new Item("Milk", 3.23, "Food", "3/25/2018");
+        Item testItem2 = new Item("Milk", 3.54, "Food", "3/25/2018");
+        ArrayList<Item> testArrayList = new ArrayList<Item>();
+        testArrayList.add(testItem1);
+        testArrayList.add(testItem2);
+        String actual = itemParser.printPriceOfItem(itemParser.countPriceOccurancies(testArrayList));
+        String expected = "Price:   3.23       seen: 1 time \n" +
+                "-------------       -------------\n" +
+                "Price:   3.54       seen: 1 time \n" +
+                "-------------       -------------\n";
+        Assert.assertEquals(actual,expected);
+    }
+
+    @Test
+    public void printFormattedItemListTest(){
+        Item testItem1 = new Item("Cookies", 3.23, "Food", "3/25/2018");
+        Item testItem2 = new Item("Milk", 3.54, "Food", "3/25/2018");
+        Item testItem3 = new Item("Apples", 3.54, "Food", "3/25/2018");
+        Item testItem4 = new Item("Bread", 3.54, "Food", "3/25/2018");
+        ArrayList<Item> testArrayList = new ArrayList<Item>();
+        testArrayList.add(testItem1);
+        testArrayList.add(testItem2);
+        testArrayList.add(testItem3);
+        testArrayList.add(testItem4);
+        String actual = itemParser.printFormattedItemList(testArrayList);
+        String expected = "name:    Milk       seen: 1 time \n" +
+                "=============       =============\n" +
+                "Price:   3.54       seen: 1 time \n" +
+                "-------------       -------------\n" +
+                "\n" +
+                "name:   Bread       seen: 1 time \n" +
+                "=============       =============\n" +
+                "Price:   3.54       seen: 1 time \n" +
+                "-------------       -------------\n" +
+                "\n" +
+                "name: Cookies       seen: 1 time \n" +
+                "=============       =============\n" +
+                "Price:   3.23       seen: 1 time \n" +
+                "-------------       -------------\n" +
+                "\n" +
+                "name:  Apples       seen: 1 time \n" +
+                "=============       =============\n" +
+                "Price:   3.54       seen: 1 time \n" +
+                "-------------       -------------\n" +
+                "\n" +
+                "Errors              seen: 0 times\n";
+        Assert.assertEquals(actual,expected);
+    }
+
 }

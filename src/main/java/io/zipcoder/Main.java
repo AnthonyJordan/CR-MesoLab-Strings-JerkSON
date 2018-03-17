@@ -21,9 +21,6 @@ public class Main {
         output = itemParser.cleanUpString(output);
         ArrayList<ArrayList<String>> itemsAndPairs = itemParser.splitItemsAndPairs(output);
         ArrayList<Item> itemArrayList = itemParser.turnStringIntoItems(itemsAndPairs);
-        System.out.println(itemArrayList);
-
-
-
+        System.out.println(itemParser.printFormattedItemList(itemArrayList));
     }
 }
